@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class WeaponHandler : MonoBehaviour
 {
     public Weapon equipedWeapon;
-    public Button swordBtn;
-    public Button gunBtn;
+    public Text equipedWeaponText;
 
     public void EquipWeapon(Weapon _weapon)
     {
         equipedWeapon = _weapon;
         equipedWeapon.Equiped();
+        equipedWeaponText.text = equipedWeapon.GetType().Name;
         Debug.Log("Equiped Weapon: " + equipedWeapon.GetType());
         equipedWeapon.Attack();
     }

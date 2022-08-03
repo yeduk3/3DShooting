@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     void GamePause()
     {
+        gamePlayCanvas.SetActive(false);
         gamePaused = true;
         gameMenuCanvas.SetActive(true);
 
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     public void BackToGameBtn()
     {
+        gamePlayCanvas.SetActive(true);
         gamePaused = false;
         gameMenuCanvas.SetActive(false);
 

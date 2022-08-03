@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickDetector : MonoBehaviour, IPointerEnterHandler
+public class EquipWeaponButton : MonoBehaviour
 {
     [SerializeField]
     private string buttonMode;
-
-    private bool focused;
     
     Color origColor;
     WeaponHandler weaponHandler;
@@ -16,16 +14,10 @@ public class ClickDetector : MonoBehaviour, IPointerEnterHandler
 
     void Start()
     {
-        focused = false;
         this.material = GetComponent<MeshRenderer>().material;
     }
 
-    public void OnFocused()
-    {
-        focused = true;
-    }
-
-    public void OnPointerEnter()
+    private void OnMouseEnter()
     {
         if(this.material.color == Color.green) return;
 
@@ -33,23 +25,16 @@ public class ClickDetector : MonoBehaviour, IPointerEnterHandler
         origColor = this.material.color;
         this.material.SetColor("_Color", Color.green);
     }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if(this.material.color == Color.green) return;
-
-        Debug.Log("EDEDEDED Entered");
-        origColor = this.material.color;
-        this.material.SetColor("_Color", Color.green);
-    }
     
-    public void OnPointerExit()
+
+    private void OnMouseExit()
     {
+        
         Debug.Log("Exited");
         GetComponent<MeshRenderer>().material.SetColor("_Color", origColor);
     }
 
-    public void OnPointerDown()
+    private void OnMouseDown()
     {
         Debug.Log("Clicked: " + gameObject.name);
 

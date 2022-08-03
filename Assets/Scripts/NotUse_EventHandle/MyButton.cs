@@ -61,15 +61,14 @@ public class MyButton : MonoBehaviour, IPointerDetector
             OnMyPointerDown();
         }
     }
+    private void OnMouseEnter() {
+        Debug.Log("Test");
+    }
+
+    private void OnMouseDown() {
+        Debug.Log("CLick");
+    }
 }
 
 
 
-
-    // private void OnMouseEnter() {
-    //     Debug.Log("Test");
-    // }
-
-    // private void OnMouseDown() {
-    //     Debug.Log("CLick");
-    // }
