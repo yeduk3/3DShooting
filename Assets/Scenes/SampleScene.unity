@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 131726960}
   m_Layer: 0
   m_Name: BasicSwordButton
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -307,10 +307,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 131726955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f9f5187eca9e8439d6c0f9f9a9130f, type: 3}
+  m_Script: {fileID: 11500000, guid: 20d399ae57ff7db478b8b88cab8c4896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonMode: BasicSword
+  eventType: 0
 --- !u!1 &217638570
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 407269419}
   m_Layer: 0
   m_Name: HandGunButton
-  m_TagString: Untagged
+  m_TagString: Button
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -639,10 +639,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 407269414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32f9f5187eca9e8439d6c0f9f9a9130f, type: 3}
+  m_Script: {fileID: 11500000, guid: 20d399ae57ff7db478b8b88cab8c4896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonMode: HandGun
+  eventType: 0
 --- !u!1 &454605552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1107,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
@@ -1190,25 +1189,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75a8fe711c5e4de4f8882e1de0a14372, type: 3}
+  m_Script: {fileID: 11500000, guid: 35f92554e99cf4842a20c109b758539e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &963194230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EventMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_MaxRayIntersections: 0
 --- !u!1 &1426842018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,7 +1339,6 @@ GameObject:
   - component: {fileID: 1750703871}
   - component: {fileID: 1750703870}
   - component: {fileID: 1750703875}
-  - component: {fileID: 1750703876}
   m_Layer: 0
   m_Name: MainCharacter
   m_TagString: Untagged
@@ -1474,20 +1456,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!136 &1750703876
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750703869}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1860114472
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Mouse movement lock & Keep position at middle point of screen
-        // Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
         
         Vector2 cursorOffset = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
         Cursor.SetCursor(cursorTexture, cursorOffset, CursorMode.Auto);
@@ -60,6 +60,6 @@ public class GameManager : MonoBehaviour
         gameMenuCanvas.SetActive(false);
 
         // Mouse movement lock & Keep position at middle point of screen
-        // Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

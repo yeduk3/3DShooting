@@ -51,6 +51,14 @@ public class CharacterMove : MonoBehaviour
             Vector3 vel = GetComponent<Rigidbody>().velocity;
             GetComponent<Rigidbody>().velocity = new Vector3(vel.x, 10f, vel.z);
         }
+
+        // Position & Rotation Reset
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            transform.position = new Vector3(3.04f, 1.77f, 1f);
+            transform.rotation = Quaternion.identity;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 
     private void OnCollisionEnter(Collision other)
