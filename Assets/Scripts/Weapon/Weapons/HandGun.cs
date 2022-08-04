@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponSystem;
 
-public class HandGun : Weapon
+public class HandGun : MonoBehaviour, IWeapon
 {
-    private float iniDamage = 3.0f;
-    
-    public override void Equiped()
+    private float damage = 3.0f;
+
+    public float GetDamage()
     {
-        SetDamage(iniDamage);
+        return damage;
     }
 
-    public override void Attack()
+    public void Equiped()
+    {
+        // SetDamage(damage);
+    }
+
+    public void Attack()
     {
         Debug.Log("Attack in damage " + GetDamage());
     }

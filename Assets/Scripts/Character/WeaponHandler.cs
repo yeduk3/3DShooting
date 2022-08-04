@@ -2,36 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using WeaponSystem;
 
 public class WeaponHandler : MonoBehaviour
 {
-    public Weapon equipedWeapon;
+    public Transform weaponSpawnPoint;
+    public IWeapon equipedWeapon;
     public Text equipedWeaponText;
 
-    public void EquipWeapon(Weapon _weapon)
+    public void EquipWeapon(string weaponName)
     {
-        equipedWeapon = _weapon;
+        Transform[] ts = weaponSpawnPoint.GetComponentsInChildren<Transform>();
+        for(int i = 1; i < ts.Length; i++) Destroy(ts[i].gameObject);
+        GameObject weaponPrefab = Armory.instance.FindWeapon(weaponName);
+        if(weaponPrefab == null) return;
+        GameObject SpawnedWeapon = GameObject.Instantiate(weaponPrefab, weaponSpawnPoint);
+        equipedWeapon = SpawnedWeapon.GetComponent<IWeapon>();
         equipedWeapon.Equiped();
-        equipedWeaponText.text = equipedWeapon.GetType().Name;
-        Debug.Log("Equiped Weapon: " + equipedWeapon.GetType());
+        equipedWeaponText.text = weaponName;
+        Debug.Log("Equiped Weapon: " + weaponName);
         equipedWeapon.Attack();
     }
 
-    public void OnBasicSwordButtonClicked()
+    public void OnEquipWeaponButtonInteraction(string weaponName)
     {
         if(equipedWeapon != null)
         {
             equipedWeapon = null;
         }
-        EquipWeapon(new BasicSword());
-    }
-
-    public void OnHandGunButtonClicked()
-    {
-        if(equipedWeapon != null)
-        {
-            equipedWeapon = null;
-        }
-        EquipWeapon(new HandGun());
+        EquipWeapon(weaponName);
     }
 }

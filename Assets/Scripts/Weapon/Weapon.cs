@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon
+namespace WeaponSystem
 {
-    private float damage;
+    public interface IWeapon
+    {
+        // void SetDamage(float _damage);
 
-    protected void SetDamage(float _damage) { this.damage = _damage; }
+        float GetDamage();
 
-    protected float GetDamage() { return damage; }
+        void Equiped();
 
-    public virtual void Equiped() {}
-
-    public virtual void Attack() {}
+        void Attack();
+    }
 }

@@ -1,17 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponSystem;
 
-public class BasicSword : Weapon
+public class BasicSword : MonoBehaviour, IWeapon
 {
-    private float iniDamage = 4.0f;
+    private float damage = 4.0f;
 
-    public override void Equiped()
+    public float GetDamage()
     {
-        SetDamage(iniDamage);
+        return damage;
     }
 
-    public override void Attack()
+    public void Equiped()
+    {
+        // SetDamage(damage);
+    }
+
+    public void Attack()
     {
         Debug.Log("Attack in damage " + GetDamage());
     }

@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameMenuCanvas;
     [SerializeField] private GameObject gamePlayCanvas;
     [SerializeField] private Texture2D cursorTexture;
+    [SerializeField] private GameObject centerCursor;
     
     private void Awake()
     {
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     void GamePause()
     {
-        gamePlayCanvas.SetActive(false);
+        centerCursor.SetActive(false);
         gamePaused = true;
         gameMenuCanvas.SetActive(true);
 
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     public void BackToGameBtn()
     {
-        gamePlayCanvas.SetActive(true);
+        centerCursor.SetActive(true);
         gamePaused = false;
         gameMenuCanvas.SetActive(false);
 
