@@ -21,7 +21,7 @@ public class WeaponHandler : MonoBehaviour
         equipedWeapon.Equiped();
         equipedWeaponText.text = weaponName;
         Debug.Log("Equiped Weapon: " + weaponName);
-        equipedWeapon.Attack();
+        // equipedWeapon.Attack();
     }
 
     public void OnEquipWeaponButtonInteraction(string weaponName)
