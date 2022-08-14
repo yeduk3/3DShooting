@@ -5,7 +5,8 @@ using UnityEngine;
 public class Armory : MonoBehaviour
 {
     public static Armory instance;
-    [SerializeField] private GameObject[] weapons;
+    [SerializeField]
+    private GameObject[] weapons;
     private Dictionary<string, int> weaponDictionary;
 
     void Awake()

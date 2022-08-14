@@ -6,7 +6,7 @@ namespace WeaponSystem
 {
     public interface IWeapon
     {
-        // void SetDamage(float _damage);
+        bool IsAttacking();
 
         float GetDamage();
 

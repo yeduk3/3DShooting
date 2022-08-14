@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviour
     public bool gamePaused = false;
 
     [Header("In Editor")]
-    [SerializeField] private GameObject gameMenuCanvas;
-    [SerializeField] private GameObject gamePlayCanvas;
-    [SerializeField] private Texture2D cursorTexture;
-    [SerializeField] private GameObject centerCursor;
+    [SerializeField]
+    private GameObject gameMenuCanvas, gamePlayCanvas, centerCursor;
+    [SerializeField]
+    private Texture2D cursorTexture;
     
     private void Awake()
     {

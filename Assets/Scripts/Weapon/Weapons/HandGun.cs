@@ -21,4 +21,9 @@ public class HandGun : MonoBehaviour, IWeapon
     {
         Debug.Log("Attack in damage " + GetDamage());
     }
+
+    public bool IsAttacking()
+    {
+        return true;
+    }
 }

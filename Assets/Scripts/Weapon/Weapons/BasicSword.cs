@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaponSystem;
 
+// enum for play animation clearily
 enum SwingState
 {
     // No Action.
@@ -17,19 +18,25 @@ enum SwingState
 
 public class BasicSword : MonoBehaviour, IWeapon
 {
-    private float damage = 4.0f;
-    private Animator animator;
     private const string pSwingState = "SwingState";
+
+
+    private float damage = 4.0f;
+    private bool isAttacking = false;
+
+    private Animator animator;
 
     void Update()
     {
+        if(GameManager.instance.gamePaused) return;
+
         if(Input.GetMouseButtonDown(0))
         {
-            if(animator.GetInteger(pSwingState) == ((int)SwingState.Idle))
+            if(!IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.Idle))
             {
                 Attack();
             }
-            else if(animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
+            else if(IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
             {
                 AdditionalAttack();
             }
@@ -49,8 +56,13 @@ public class BasicSword : MonoBehaviour, IWeapon
 
     public void Attack()
     {
-        Debug.Log("Attack in damage " + GetDamage());
+        isAttacking = true;
         animator.SetInteger(pSwingState, ((int)SwingState.Swinging));
+    }
+
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 
     public void AdditionalAttack()
@@ -71,6 +83,7 @@ public class BasicSword : MonoBehaviour, IWeapon
 
     public void SwingEnd()
     {
+        isAttacking = false;
         animator.SetInteger(pSwingState, ((int)SwingState.Idle));
     }
 }
