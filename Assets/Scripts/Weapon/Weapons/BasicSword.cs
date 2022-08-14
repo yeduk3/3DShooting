@@ -20,9 +20,12 @@ public class BasicSword : MonoBehaviour, IWeapon
 {
     private const string pSwingState = "SwingState";
 
-
+    // Default Striking Power
+    private const  float DefaultSTR = 4.0f;
+    // Changeable Striking Power and will be damage enemy
     private float damage = 4.0f;
-    private bool isAttacking = false;
+    // Data for damage enemies only once.
+    private List<int> damagedEnemyIDList = new List<int>();
 
     private Animator animator;
 
@@ -32,11 +35,18 @@ public class BasicSword : MonoBehaviour, IWeapon
 
         if(Input.GetMouseButtonDown(0))
         {
-            if(!IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.Idle))
+            if(animator.GetInteger(pSwingState) == ((int)SwingState.Idle))
             {
                 Attack();
             }
-            else if(IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
+            // else if(IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
+            // {
+            //     AdditionalAttack();
+            // }
+        }
+        else if(Input.GetMouseButtonDown(1))
+        {
+            if(animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
             {
                 AdditionalAttack();
             }
@@ -48,6 +58,11 @@ public class BasicSword : MonoBehaviour, IWeapon
         return damage;
     }
 
+    private void SetDamage(float _damage)
+    {
+        this.damage = _damage;
+    }
+
     public void Equiped()
     {
         animator = GetComponent<Animator>();
@@ -56,18 +71,15 @@ public class BasicSword : MonoBehaviour, IWeapon
 
     public void Attack()
     {
-        isAttacking = true;
         animator.SetInteger(pSwingState, ((int)SwingState.Swinging));
-    }
-
-    public bool IsAttacking()
-    {
-        return isAttacking;
     }
 
     public void AdditionalAttack()
     {
-        Debug.Log("Attack in damage " + GetDamage());
+        ClearDamagedEnemyIDList();
+
+        SetDamage(DefaultSTR * 1.2f);
+
         animator.SetInteger(pSwingState, ((int)SwingState.AdditionalSwing));
     }
 
@@ -83,7 +95,28 @@ public class BasicSword : MonoBehaviour, IWeapon
 
     public void SwingEnd()
     {
-        isAttacking = false;
+        ClearDamagedEnemyIDList();
+
+        SetDamage(DefaultSTR);
+
         animator.SetInteger(pSwingState, ((int)SwingState.Idle));
+    }
+
+    // Excuted when this weapon is damaging enemy. Save the enemy's ID.
+    public void DamagedToID(int enemyID)
+    {
+        damagedEnemyIDList.Add(enemyID);
+    }
+
+    // Excuted for check whether this weapon damaged an enemy
+    public bool AlreadyBeenDamaged(int enemyID)
+    {
+        return damagedEnemyIDList.Contains(enemyID);
+    }
+
+    // Clear the list of damaged enemy's IDs
+    public void ClearDamagedEnemyIDList()
+    {
+        damagedEnemyIDList.Clear();
     }
 }

@@ -6,12 +6,17 @@ namespace WeaponSystem
 {
     public interface IWeapon
     {
-        bool IsAttacking();
 
         float GetDamage();
 
         void Equiped();
 
         void Attack();
+
+        void DamagedToID(int enemyID);
+
+        bool AlreadyBeenDamaged(int enemyID);
+
+        void ClearDamagedEnemyIDList();
     }
 }

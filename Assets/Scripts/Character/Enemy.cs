@@ -6,16 +6,22 @@ using WeaponSystem;
 
 public class Enemy : MonoBehaviour
 {
-    // Slider for show HP of itself.
+    // Information for show HP of itself.
+    [Header("HP Info")]
     [SerializeField]
     private Slider hpBar;
     [SerializeField]
     private Text hpText;
 
     // HP related values
+    [Header("HP Data")]
     [SerializeField]
     private float maxHP;
     private float curHP;
+    [SerializeField]
+    private bool invincible = false;
+
+    private int enemyID;
 
     void Awake()
     {
@@ -26,19 +32,22 @@ public class Enemy : MonoBehaviour
         hpBar.value = maxHP;
         curHP = maxHP;
         OnSliderValueUpdated();
+
+        enemyID = gameObject.GetInstanceID();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        Debug.Log(other.gameObject.name + " Entered");
         if(other.gameObject.CompareTag("Weapon"))
         {
             IWeapon triggeredWeapon = other.transform.parent.parent.parent.GetComponent<WeaponHandler>().equipedWeapon;
-            if(triggeredWeapon.IsAttacking())
+
+            if(!(triggeredWeapon.AlreadyBeenDamaged(enemyID)))
             {
                 curHP = MinusHP(triggeredWeapon.GetDamage());
-                
-                Debug.Log("Attack in damage " + triggeredWeapon.GetDamage());
+                triggeredWeapon.DamagedToID(enemyID);
+
+                Debug.Log("Damaged " + triggeredWeapon.GetDamage());
 
                 hpBar.value = curHP;
             }
@@ -47,7 +56,7 @@ public class Enemy : MonoBehaviour
 
     private float MinusHP(float amount)
     {
-        curHP = (curHP - amount > 0f) ? (curHP - amount) : (0f);
+        curHP = (curHP - amount > 0f) ? (curHP - amount) : (invincible) ? (maxHP) : (0f);
         return curHP;
     }
 
