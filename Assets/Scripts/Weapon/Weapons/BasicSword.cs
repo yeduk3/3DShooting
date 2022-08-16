@@ -16,12 +16,12 @@ enum SwingState
     AdditionalSwing = 3,
 }
 
-public class BasicSword : MonoBehaviour, IWeapon
+public class BasicSword : MonoBehaviour, IWeapon, IDamage
 {
     private const string pSwingState = "SwingState";
 
     // Default Striking Power
-    private const  float DefaultSTR = 4.0f;
+    private const float DefaultSTR = 4.0f;
     // Changeable Striking Power and will be damage enemy
     private float damage = 4.0f;
     // Data for damage enemies only once.
@@ -39,10 +39,6 @@ public class BasicSword : MonoBehaviour, IWeapon
             {
                 Attack();
             }
-            // else if(IsAttacking() && animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
-            // {
-            //     AdditionalAttack();
-            // }
         }
         else if(Input.GetMouseButtonDown(1))
         {
@@ -118,5 +114,15 @@ public class BasicSword : MonoBehaviour, IWeapon
     public void ClearDamagedEnemyIDList()
     {
         damagedEnemyIDList.Clear();
+    }
+
+    public IWeapon GetAttackWeapon()
+    {
+        return this;
+    }
+
+    public string GetName()
+    {
+        return gameObject.name;
     }
 }

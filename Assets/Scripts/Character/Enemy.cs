@@ -38,14 +38,18 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(other.gameObject.name);
         if(other.gameObject.CompareTag("Weapon"))
         {
-            IWeapon triggeredWeapon = other.transform.parent.parent.parent.GetComponent<WeaponHandler>().equipedWeapon;
+            // IWeapon triggeredWeapon = other.transform.parent.parent.parent.GetComponent<WeaponHandler>().equipedWeapon;
+            IDamage triggeredDamage = other.GetComponent<DamageDetector>().GetDetectedDamage();
+            IWeapon triggeredWeapon = triggeredDamage.GetAttackWeapon();
+            Debug.Log("triggeredWeapon : " + triggeredWeapon.GetName());
 
-            if(!(triggeredWeapon.AlreadyBeenDamaged(enemyID)))
+            if(!(triggeredDamage.AlreadyBeenDamaged(enemyID)))
             {
                 curHP = MinusHP(triggeredWeapon.GetDamage());
-                triggeredWeapon.DamagedToID(enemyID);
+                triggeredDamage.DamagedToID(enemyID);
 
                 Debug.Log("Damaged " + triggeredWeapon.GetDamage());
 

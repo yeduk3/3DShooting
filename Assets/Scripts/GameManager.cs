@@ -65,4 +65,9 @@ public class GameManager : MonoBehaviour
         // Mouse movement lock & Keep position at middle point of screen
         Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void ExitGameBtn()
+    {
+        Application.Quit();
+    }
 }
