@@ -19,16 +19,14 @@ public class HandGun : MonoBehaviour, IWeapon
 
     private const string pFireState = "FireState";
 
-    // Default Striking Power
-    private const float DefaultSTR = 3.0f;
-    private float damage = 3.0f;
-
 
     private Animator animator;
     
     void Update()
     {
         if(GameManager.instance.gamePaused) return;
+
+        bulletSpawnPoint.position = Camera.main.transform.position + Camera.main.transform.forward * 5f;
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -40,16 +38,6 @@ public class HandGun : MonoBehaviour, IWeapon
         }
     }
 
-    public float GetDamage()
-    {
-        return damage;
-    }
-
-    private void SetDamage(float _damage)
-    {
-        this.damage = _damage;
-    }
-
     public void Equiped()
     {
         animator = GetComponent<Animator>();
@@ -58,18 +46,23 @@ public class HandGun : MonoBehaviour, IWeapon
 
     public void Attack()
     {
-        SpawnBullet();
+        Transform cam = Camera.main.transform;
+        GameObject bullet = ObjectPool.instance.GetPooledObject();
+        float rayRadius = bullet.GetComponent<SphereCollider>().radius * bullet.transform.localScale.x;
+        float distance = Vector3.Distance(bulletSpawnPoint.position, cam.position);
+        RaycastHit[] hits = Physics.SphereCastAll(cam.position, rayRadius, cam.forward, distance);
+        SpawnBullet(hits.Length == 0);
 
         animator.SetInteger(pFireState, ((int)FireState.Firing));
     }
 
-    public void SpawnBullet()
+    public void SpawnBullet(bool visibility)
     {
         GameObject bullet = ObjectPool.instance.GetPooledObject();
-        bullet.GetComponent<Bullet>().BulletSetting(this, bulletSpawnPoint.forward, 2);
+        bullet.GetComponent<Bullet>().BulletSetting(this, Camera.main.transform.forward, 1, visibility);
         bullet.transform.position = bulletSpawnPoint.position;
         bullet.SetActive(true);
-        Debug.Log("Bullet Instantiated from the Pool");
+        // Debug.Log("Bullet Instantiated from the Pool");
     }
 
     public void FireEnd()

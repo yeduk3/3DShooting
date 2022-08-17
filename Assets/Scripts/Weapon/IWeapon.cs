@@ -6,8 +6,6 @@ namespace WeaponSystem
 {
     public interface IWeapon
     {
-        float GetDamage();
-
         void Equiped();
 
         void Attack();

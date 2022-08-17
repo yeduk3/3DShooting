@@ -6,6 +6,8 @@ namespace WeaponSystem
 {
     public interface IDamage
     {
+        float GetDamage();
+        
         void DamagedToID(int enemyID);
 
         bool AlreadyBeenDamaged(int enemyID);

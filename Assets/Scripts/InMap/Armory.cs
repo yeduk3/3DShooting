@@ -25,7 +25,7 @@ public class Armory : MonoBehaviour
         for(int i = 0; i < weapons.Length; i++)
         {
             weaponDictionary.Add(weapons[i].name, i);
-            Debug.Log(weapons[i].name + " : " + i);
+            // Debug.Log(weapons[i].name + " : " + i);
         }
     }
 
