@@ -51,18 +51,18 @@ public class HandGun : MonoBehaviour, IWeapon
         float rayRadius = bullet.GetComponent<SphereCollider>().radius * bullet.transform.localScale.x;
         float distance = Vector3.Distance(bulletSpawnPoint.position, cam.position);
         RaycastHit[] hits = Physics.SphereCastAll(cam.position, rayRadius, cam.forward, distance);
-        SpawnBullet(hits.Length == 0);
+        if(hits.Length == 0) SpawnBullet(true);
+        else SpawnBullet(false, hits[0].transform);
 
         animator.SetInteger(pFireState, ((int)FireState.Firing));
     }
 
-    public void SpawnBullet(bool visibility)
+    public void SpawnBullet(bool visibility, Transform hitPosition = null)
     {
         GameObject bullet = ObjectPool.instance.GetPooledObject();
         bullet.GetComponent<Bullet>().BulletSetting(this, Camera.main.transform.forward, 1, visibility);
-        bullet.transform.position = bulletSpawnPoint.position;
+        bullet.transform.position = visibility ? bulletSpawnPoint.position : hitPosition.position;
         bullet.SetActive(true);
-        // Debug.Log("Bullet Instantiated from the Pool");
     }
 
     public void FireEnd()
