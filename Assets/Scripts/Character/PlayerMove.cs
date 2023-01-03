@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public static GameObject mainPlayer;
+
     private float moveSpeed;
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
@@ -16,6 +18,12 @@ public class PlayerMove : MonoBehaviour
 
     void Awake()
     {
+        if(mainPlayer == null)
+        {
+            print("MainPlayer Set");
+            mainPlayer = gameObject;
+        }
+
         moveSpeed = walkSpeed;
         canJump = false;
     }
@@ -61,6 +69,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    // Prevent Multi-Jump
     private void OnCollisionEnter(Collision other)
     {
         if(other.gameObject.CompareTag("Floor"))

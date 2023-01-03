@@ -19,10 +19,11 @@ public class Enemy : MonoBehaviour
     private float maxHP;
     private float curHP;
     [SerializeField]
-    private bool invincible = false;
+    private bool invincible; // if true, not die.
 
     private int enemyID;
 
+    // Enemy Basic Info(HP, ID) Set
     void Awake()
     {
         hpBar.onValueChanged.AddListener( delegate { OnSliderValueUpdated(); } );
@@ -36,15 +37,17 @@ public class Enemy : MonoBehaviour
         enemyID = gameObject.GetInstanceID();
     }
 
+    void Start() 
+    {
+        GetComponentInChildren<LookTarget>().setTarget(PlayerMove.mainPlayer.transform);
+    }
+
+    // Damage Detect
     private void OnTriggerStay(Collider other)
     {
-        // Debug.Log(other.gameObject.name);
         if(other.gameObject.CompareTag("Weapon"))
         {
-            // IWeapon triggeredWeapon = other.transform.parent.parent.parent.GetComponent<WeaponHandler>().equipedWeapon;
             IDamage triggeredDamage = other.GetComponent<DamageDetector>().GetDetectedDamage();
-            // IWeapon triggeredWeapon = triggeredDamage.GetAttackWeapon();
-            // Debug.Log("triggeredWeapon : " + triggeredWeapon.GetName());
 
             if(!(triggeredDamage.AlreadyBeenDamaged(enemyID)))
             {
@@ -58,18 +61,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // HP Decrease
     private float MinusHP(float amount)
     {
         curHP = (curHP - amount > 0f) ? (curHP - amount) : (invincible) ? (maxHP) : (0f);
         return curHP;
     }
 
+    // HP Increase
     private float PlusHP(float amount)
     {
         curHP = (curHP + amount < maxHP) ? (curHP + amount) : (maxHP);
         return curHP;
     }
 
+    // HP Text Change
     public void OnSliderValueUpdated()
     {
         hpText.text = curHP.ToString();

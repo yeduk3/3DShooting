@@ -18,6 +18,7 @@ enum SwingState
 
 public class BasicSword : MonoBehaviour, IWeapon, IDamage
 {
+    // Animation Parameter Name
     private const string pSwingState = "SwingState";
 
     // Default Striking Power
@@ -33,6 +34,7 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
     {
         if(GameManager.instance.gamePaused) return;
 
+        // Left Mouse Click to First Swing
         if(Input.GetMouseButtonDown(0))
         {
             if(animator.GetInteger(pSwingState) == ((int)SwingState.Idle))
@@ -40,6 +42,7 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
                 Attack();
             }
         }
+        // Right Mouse Click to Additional Swing
         else if(Input.GetMouseButtonDown(1))
         {
             if(animator.GetInteger(pSwingState) == ((int)SwingState.AdditionalHit))
@@ -49,27 +52,32 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
         }
     }
 
+    // IDamage
     public float GetDamage()
     {
         return damage;
     }
 
+    // Method to Change Damage in Additional Swing
     private void SetDamage(float _damage)
     {
         this.damage = _damage;
     }
 
+    // IWeapon
     public void Equiped()
     {
         animator = GetComponent<Animator>();
         animator.SetInteger(pSwingState, ((int)SwingState.Idle));
     }
 
+    // IWeapon
     public void Attack()
     {
         animator.SetInteger(pSwingState, ((int)SwingState.Swinging));
     }
 
+    // Additinoal Attack for Basic Sword
     public void AdditionalAttack()
     {
         ClearDamagedEnemyIDList();
@@ -79,16 +87,19 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
         animator.SetInteger(pSwingState, ((int)SwingState.AdditionalSwing));
     }
 
+    // Animation Events 1
     public void FirstSwingWait()
     {
         animator.SetInteger(pSwingState, ((int)SwingState.AdditionalHit));
     }
 
+    // Animation Events 2
     public void KeepSwing()
     {
         animator.SetInteger(pSwingState, ((int)SwingState.Swinging));
     }
 
+    // Animation Events 3
     public void SwingEnd()
     {
         ClearDamagedEnemyIDList();
@@ -98,29 +109,31 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
         animator.SetInteger(pSwingState, ((int)SwingState.Idle));
     }
 
-    // Excuted when this weapon is damaging enemy. Save the enemy's ID.
+    // IDamage, Excuted when this weapon is damaging enemy. Save the enemy's ID.
     public void DamagedToID(int enemyID)
     {
         damagedEnemyIDList.Add(enemyID);
     }
 
-    // Excuted for check whether this weapon damaged an enemy
+    // IDamage, Excuted for check whether this weapon damaged an enemy
     public bool AlreadyBeenDamaged(int enemyID)
     {
         return damagedEnemyIDList.Contains(enemyID);
     }
 
-    // Clear the list of damaged enemy's IDs
+    // IDamage, Clear the list of damaged enemy's IDs
     public void ClearDamagedEnemyIDList()
     {
         damagedEnemyIDList.Clear();
     }
 
+    // IDamage
     public IWeapon GetAttackWeapon()
     {
         return this;
     }
 
+    // Return Object's Name
     public string GetName()
     {
         return gameObject.name;

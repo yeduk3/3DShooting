@@ -28,6 +28,7 @@ public class Bullet : MonoBehaviour, IDamage
     private HandGun originWeapon;
     private Vector3 direction;
 
+    // Bullet Setting for Spawning
     public void BulletSetting(HandGun originWeapon, Vector3 direction, int penetrationCount, bool visibility)
     {
         curLifeTime = 0f;
@@ -39,6 +40,7 @@ public class Bullet : MonoBehaviour, IDamage
         GetComponent<MeshRenderer>().material = visibility ? normalMaterial : transparentMaterial;
     }
 
+    // Bullet Fly & Life Time
     void Update()
     {
         if(GameManager.instance.gamePaused) return;
@@ -51,40 +53,44 @@ public class Bullet : MonoBehaviour, IDamage
         transform.Translate(direction * bulletSpeed * Time.deltaTime);
     }
 
+    // IDamage
     public float GetDamage()
     {
         return damage;
     }
 
+    // 
     private void SetDamage(float _damage)
     {
         this.damage = _damage;
     }
     
-    // Excuted when this weapon is damaging enemy. Save the enemy's ID.
+    // IDamage, Excuted when this weapon is damaging enemy. Save the enemy's ID.
     public void DamagedToID(int enemyID)
     {
         damagedEnemyIDList.Add(enemyID);
         // Debug.Log(GetEnemyIDListCount() + " HIT!!");
     }
 
-    // Excuted for check whether this weapon damaged an enemy
+    // IDamage, Excuted for check whether this weapon damaged an enemy
     public bool AlreadyBeenDamaged(int enemyID)
     {
         return damagedEnemyIDList.Contains(enemyID);
     }
 
-    // Clear the list of damaged enemy's IDs
+    // IDamage, Clear the list of damaged enemy's IDs
     public void ClearDamagedEnemyIDList()
     {
         damagedEnemyIDList.Clear();
     }
 
+    // Method to Check Penetration 
     public int GetEnemyIDListCount()
     {
         return damagedEnemyIDList.Count;
     }
 
+    // IDamage
     public IWeapon GetAttackWeapon()
     {
         return originWeapon;

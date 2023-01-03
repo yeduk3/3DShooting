@@ -16,6 +16,8 @@ public class HandGun : MonoBehaviour, IWeapon
 {
     [Header("Bullet Data")]
     public Transform bulletSpawnPoint;
+    [SerializeField]
+    private int penetrationCount;
 
     private const string pFireState = "FireState";
 
@@ -38,14 +40,17 @@ public class HandGun : MonoBehaviour, IWeapon
         }
     }
 
+    // IWeapon
     public void Equiped()
     {
         animator = GetComponent<Animator>();
         animator.SetInteger(pFireState, ((int)FireState.Idle));
     }
 
+    // IWeapon
     public void Attack()
     {
+        // Check Whether Enemies Are Close to Attacker
         Transform cam = Camera.main.transform;
         GameObject bullet = ObjectPool.instance.GetPooledObject();
         float rayRadius = bullet.GetComponent<SphereCollider>().radius * bullet.transform.localScale.x;
@@ -60,7 +65,7 @@ public class HandGun : MonoBehaviour, IWeapon
     public void SpawnBullet(bool visibility, Transform hitPosition = null)
     {
         GameObject bullet = ObjectPool.instance.GetPooledObject();
-        bullet.GetComponent<Bullet>().BulletSetting(this, Camera.main.transform.forward, 1, visibility);
+        bullet.GetComponent<Bullet>().BulletSetting(this, Camera.main.transform.forward, penetrationCount, visibility);
         bullet.transform.position = visibility ? bulletSpawnPoint.position : hitPosition.position;
         bullet.SetActive(true);
     }
