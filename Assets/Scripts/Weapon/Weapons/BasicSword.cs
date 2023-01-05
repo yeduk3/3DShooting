@@ -107,6 +107,7 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
         SetDamage(DefaultSTR);
 
         animator.SetInteger(pSwingState, ((int)SwingState.Idle));
+        print("Swing End");
     }
 
     // IDamage, Excuted when this weapon is damaging enemy. Save the enemy's ID.
@@ -127,10 +128,16 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
         damagedEnemyIDList.Clear();
     }
 
-    // IDamage
+    // IDamage, Return the IWeapon
     public IWeapon GetAttackWeapon()
     {
         return this;
+    }
+
+    // IDamage, Return whether the state is idle
+    public bool IsDamaging()
+    {
+        return animator.GetInteger(pSwingState) == (int)(SwingState.Swinging) || animator.GetInteger(pSwingState) == (int)(SwingState.AdditionalSwing);
     }
 
     // Return Object's Name

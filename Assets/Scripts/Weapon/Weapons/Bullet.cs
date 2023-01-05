@@ -90,9 +90,15 @@ public class Bullet : MonoBehaviour, IDamage
         return damagedEnemyIDList.Count;
     }
 
-    // IDamage
+    // IDamage, Return the IWeapon
     public IWeapon GetAttackWeapon()
     {
         return originWeapon;
+    }
+
+    // IDamage, Return whether the state is idle
+    public bool IsDamaging()
+    {
+        return true;
     }
 }

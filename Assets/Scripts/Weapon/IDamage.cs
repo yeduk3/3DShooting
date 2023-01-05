@@ -14,6 +14,8 @@ namespace WeaponSystem
 
         void ClearDamagedEnemyIDList();
 
+        bool IsDamaging();
+
         IWeapon GetAttackWeapon();
     }
 }

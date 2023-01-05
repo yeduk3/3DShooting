@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     void Start() 
     {
-        GetComponentInChildren<LookTarget>().setTarget(PlayerMove.mainPlayer.transform);
+        hpBar.GetComponentInParent<LookTarget>().setTarget(PlayerMove.mainPlayer.transform);
     }
 
     // Damage Detect
@@ -49,12 +49,12 @@ public class Enemy : MonoBehaviour
         {
             IDamage triggeredDamage = other.GetComponent<DamageDetector>().GetDetectedDamage();
 
-            if(!(triggeredDamage.AlreadyBeenDamaged(enemyID)))
+            if(!(triggeredDamage.AlreadyBeenDamaged(enemyID)) && triggeredDamage.IsDamaging())
             {
                 curHP = MinusHP(triggeredDamage.GetDamage());
                 triggeredDamage.DamagedToID(enemyID);
 
-                Debug.Log("Damaged " + triggeredDamage.GetDamage());
+                Debug.Log("Damaged " + triggeredDamage.GetDamage() + " at " + Time.time);
 
                 hpBar.value = curHP;
             }
