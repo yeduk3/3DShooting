@@ -112,7 +112,7 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: 2b89ca49cac8d7c4786844f764621028, type: 2}
   transparentMaterial: {fileID: 2100000, guid: 30a9cc32cc1a2b14888a7886407d14d9, type: 2}
   penetrationCount: 2
-  bulletSpeed: 30
+  bulletSpeed: 60
   lifeTime: 5
 --- !u!114 &3641069193143098350
 MonoBehaviour:

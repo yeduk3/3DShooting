@@ -29,13 +29,14 @@ public class Bullet : MonoBehaviour, IDamage
     private Vector3 direction;
 
     // Bullet Setting for Spawning
-    public void BulletSetting(HandGun originWeapon, Vector3 direction, int penetrationCount, bool visibility)
+    public void BulletSetting(HandGun originWeapon, Vector3 direction, int penetrationCount, bool visibility = true)
     {
         curLifeTime = 0f;
         ClearDamagedEnemyIDList();
+
         this.originWeapon = originWeapon;
-        this.penetrationCount = penetrationCount;
         this.direction = direction;
+        this.penetrationCount = penetrationCount;
 
         GetComponent<MeshRenderer>().material = visibility ? normalMaterial : transparentMaterial;
     }

@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
                 curHP = MinusHP(triggeredDamage.GetDamage());
                 triggeredDamage.DamagedToID(enemyID);
 
-                Debug.Log("Damaged " + triggeredDamage.GetDamage() + " at " + Time.time);
+                //Debug.Log("Damaged " + triggeredDamage.GetDamage() + " at " + Time.time);
 
                 hpBar.value = curHP;
             }

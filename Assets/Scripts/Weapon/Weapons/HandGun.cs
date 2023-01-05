@@ -23,12 +23,18 @@ public class HandGun : MonoBehaviour, IWeapon
 
 
     private Animator animator;
+
+    // find direction
+    Transform cam;
+
+    void Awake()
+    {
+        cam = Camera.main.transform;
+    }
     
     void Update()
     {
         if(GameManager.instance.gamePaused) return;
-
-        bulletSpawnPoint.position = Camera.main.transform.position + Camera.main.transform.forward * 5f;
 
         if(Input.GetMouseButtonDown(0))
         {
@@ -50,24 +56,55 @@ public class HandGun : MonoBehaviour, IWeapon
     // IWeapon
     public void Attack()
     {
-        // Check Whether Enemies Are Close to Attacker
-        Transform cam = Camera.main.transform;
-        GameObject bullet = ObjectPool.instance.GetPooledObject();
-        float rayRadius = bullet.GetComponent<SphereCollider>().radius * bullet.transform.localScale.x;
-        float distance = Vector3.Distance(bulletSpawnPoint.position, cam.position);
-        RaycastHit[] hits = Physics.SphereCastAll(cam.position, rayRadius, cam.forward, distance);
-        if(hits.Length == 0) SpawnBullet(true);
-        else SpawnBullet(false, hits[0].transform);
+        // Check the closest point to attack at the point of camera's view
+        GameObject bulletPref = ObjectPool.instance.bulletPrefab;
 
+        /*
+        float rayRadius = bulletPref.GetComponent<SphereCollider>().radius * bulletPref.transform.localScale.x;
+        RaycastHit[] hits = Physics.SphereCastAll(cam.position, rayRadius, cam.forward, Mathf.Infinity);
+        
+        // Set the bullet's direction
+        if(hits.Length == 0) 
+        {
+            direction = cam.position + cam.forward * 100;
+            //print("No Hit");
+        }
+        else
+        {
+            direction = hits[0].point - bulletSpawnPoint.position;
+            //print("Hit");
+        }
+*/
+        Vector3 direction;
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            print("HIt");
+            Debug.DrawRay(ray.origin, hit.point, Color.red, 3.0f);
+            direction = hit.point - bulletSpawnPoint.position;
+        }
+        else
+        {
+            
+            direction = cam.position + cam.forward * 100;
+        }
+
+        // Spawn the bullet.
+        SpawnBullet(direction.normalized);
         animator.SetInteger(pFireState, ((int)FireState.Firing));
     }
 
-    public void SpawnBullet(bool visibility, Transform hitPosition = null)
+    // Spawn the bullet.
+    public void SpawnBullet(Vector3 direction)
     {
         GameObject bullet = ObjectPool.instance.GetPooledObject();
-        bullet.GetComponent<Bullet>().BulletSetting(this, Camera.main.transform.forward, penetrationCount, visibility);
-        bullet.transform.position = visibility ? bulletSpawnPoint.position : hitPosition.position;
+        bullet.GetComponent<Bullet>().BulletSetting(this, direction.normalized, penetrationCount);
+        bullet.transform.position = bulletSpawnPoint.position;
         bullet.SetActive(true);
+
     }
 
     public void FireEnd()
