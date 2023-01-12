@@ -111,7 +111,7 @@ public class BasicSword : MonoBehaviour, IWeapon, IDamage
     }
 
     // IDamage, Excuted when this weapon is damaging enemy. Save the enemy's ID.
-    public void DamagedToID(int enemyID)
+    public void DamageToEnemyByID(int enemyID)
     {
         damagedEnemyIDList.Add(enemyID);
     }

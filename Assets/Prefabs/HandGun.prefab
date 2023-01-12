@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpawnPoint: {fileID: 2569920822173080712}
-  penetrationCount: 1
+  penetrationCount: 2
 --- !u!1001 &686607350668590972
 PrefabInstance:
   m_ObjectHideFlags: 0

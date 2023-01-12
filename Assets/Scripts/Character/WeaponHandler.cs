@@ -22,8 +22,8 @@ public class WeaponHandler : MonoBehaviour
         if(weaponPrefab == null) return;
 
         // Instantiate
-        GameObject SpawnedWeapon = GameObject.Instantiate(weaponPrefab, weaponSpawnPoint);
-        equipedWeapon = SpawnedWeapon.GetComponent<IWeapon>();
+        GameObject spawnedWeapon = GameObject.Instantiate(weaponPrefab, weaponSpawnPoint);
+        equipedWeapon = spawnedWeapon.GetComponent<IWeapon>();
         equipedWeapon.Equiped();
 
         // Show Weapon Info

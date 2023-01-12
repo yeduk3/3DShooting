@@ -42,7 +42,8 @@ public class Enemy : MonoBehaviour
         hpBar.GetComponentInParent<LookTarget>().setTarget(PlayerMove.mainPlayer.transform);
     }
 
-    // Damage Detect
+/*
+Damage Detect - Collision
     private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.CompareTag("Weapon"))
@@ -52,13 +53,22 @@ public class Enemy : MonoBehaviour
             if(!(triggeredDamage.AlreadyBeenDamaged(enemyID)) && triggeredDamage.IsDamaging())
             {
                 curHP = MinusHP(triggeredDamage.GetDamage());
-                triggeredDamage.DamagedToID(enemyID);
+                triggeredDamage.DamageToEnemyByID(enemyID);
+                print(enemyID + " Hitted");
 
                 //Debug.Log("Damaged " + triggeredDamage.GetDamage() + " at " + Time.time);
 
                 hpBar.value = curHP;
             }
         }
+    }
+*/
+
+    // Damage Detect - Hit Scan
+    public void Damaged(float amount)
+    {
+        curHP = MinusHP(amount);
+        hpBar.value = curHP;
     }
 
     // HP Decrease

@@ -8,7 +8,7 @@ namespace WeaponSystem
     {
         float GetDamage();
         
-        void DamagedToID(int enemyID);
+        void DamageToEnemyByID(int enemyID);
 
         bool AlreadyBeenDamaged(int enemyID);
 

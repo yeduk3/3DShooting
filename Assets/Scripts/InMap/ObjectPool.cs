@@ -2,6 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Pooled Object Set
+public struct PoolSet
+{
+    // Object Prefab
+    GameObject prefab;
+    int amount;
+    Transform pool;
+    List<GameObject> pooledList;
+
+    public PoolSet(GameObject prefab, int amount, Transform parent)
+    {
+        this.prefab = prefab;
+        this.amount = amount;
+        this.pool = parent;
+        pooledList = new List<GameObject>();
+    }
+
+    public void CreatePool()
+    {
+        GameObject tmp;
+
+        for(int i = 0; i < amount; i++)
+        {
+            tmp = GameObject.Instantiate(prefab, pool);
+            tmp.SetActive(false);
+            pooledList.Add(tmp);
+        }
+    }
+
+    // Method to Use Pooled Bullet
+    public GameObject Pop()
+    {
+        for(int i = 0; i < amount; i++)
+        {
+            if(!pooledList[i].activeInHierarchy)
+            {
+                return pooledList[i];
+            }
+        }
+        return null;
+    }
+
+    // Method to Clean Up Bullet
+    public void Push(GameObject usedBullet)
+    {
+        usedBullet.transform.position = pool.position;
+        usedBullet.SetActive(false);
+    }
+}
+
 // Object Pooling
 public class ObjectPool : MonoBehaviour
 {
@@ -12,8 +62,13 @@ public class ObjectPool : MonoBehaviour
     [Header("HandGun Bullet")]
     public GameObject bulletPrefab;
     public int bulletAmountToPool;
-    public List<GameObject> pooledBullets;
     public Transform bulletPool;
+    private PoolSet bulletSet;
+
+    public PoolSet GetBulletSet()
+    {
+        return bulletSet;
+    }
 
     // For Another..
 
@@ -27,33 +82,8 @@ public class ObjectPool : MonoBehaviour
     void Start()
     {
         // Instantiate Objects in Advance
-        pooledBullets = new List<GameObject>();
-        GameObject tmp;
-        for(int i = 0; i < bulletAmountToPool; i++)
-        {
-            tmp = Instantiate(bulletPrefab, bulletPool);
-            tmp.SetActive(false);
-            pooledBullets.Add(tmp);
-        }
-    }
-
-    // Method to Use Pooled Object
-    public GameObject GetPooledObject()
-    {
-        for(int i = 0; i < bulletAmountToPool; i++)
-        {
-            if(!pooledBullets[i].activeInHierarchy)
-            {
-                return pooledBullets[i];
-            }
-        }
-        return null;
-    }
-
-    // Method to Clean Up Bullet
-    public void PoolBullet(GameObject usedBullet)
-    {
-        usedBullet.transform.position = bulletPool.position;
-        usedBullet.SetActive(false);
+        
+        //bulletSet = new PoolSet(bulletPrefab, bulletAmountToPool, bulletPool);
+        //bulletSet.CreatePool();
     }
 }

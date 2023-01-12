@@ -42,16 +42,29 @@ public class Bullet : MonoBehaviour, IDamage
     }
 
     // Bullet Fly & Life Time
-    void Update()
+    void FixedUpdate()
     {
         if(GameManager.instance.gamePaused) return;
 
-        if(GetEnemyIDListCount() == penetrationCount) ObjectPool.instance.PoolBullet(gameObject);
+        // destroy condition
+        if(curLifeTime > lifeTime || GetEnemyIDListCount() == penetrationCount) ObjectPool.instance.GetBulletSet().Push(gameObject);
         
-        curLifeTime += Time.deltaTime;
-        if(curLifeTime > lifeTime) ObjectPool.instance.PoolBullet(gameObject);
+        curLifeTime += Time.fixedDeltaTime;
 
-        transform.Translate(direction * bulletSpeed * Time.deltaTime);
+        float dist = bulletSpeed * Time.fixedDeltaTime;
+
+        transform.Translate(direction * dist);
+
+        // ray casting for detecting enemies
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, dist))
+        {
+            if(hit.collider.GetComponent<Enemy>()) print(hit.collider.transform.parent.name);
+            else print(hit.collider.transform.name);
+            transform.position = hit.point;
+        }
     }
 
     // IDamage
@@ -67,7 +80,7 @@ public class Bullet : MonoBehaviour, IDamage
     }
     
     // IDamage, Excuted when this weapon is damaging enemy. Save the enemy's ID.
-    public void DamagedToID(int enemyID)
+    public void DamageToEnemyByID(int enemyID)
     {
         damagedEnemyIDList.Add(enemyID);
         // Debug.Log(GetEnemyIDListCount() + " HIT!!");
